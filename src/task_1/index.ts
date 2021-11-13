@@ -36,7 +36,7 @@ export abstract class BaseEmployee {
 export interface IManageEmployee {
     subordinates: Map<EmployeeDivision, Array<BaseEmployee>>;
 
-    getSubordinates(flatOutput?: boolean): void;
+    getSubordinates(flatOutput?: boolean): IterableIterator<Array<BaseEmployee>> | IterableIterator<[EmployeeDivision, Array<BaseEmployee>]>;
     addSubordinate(person: BaseEmployee): void;
     removeSubordinate(person: BaseEmployee): void;
 }

@@ -59,8 +59,8 @@ export class Manager extends BaseEmployee implements IManageEmployee {
         this.subordinates.get(person.department).splice(indexOfPerson, 1);
     }
 
-    getSubordinates(flatOutput?: boolean): void {
-        console.log(flatOutput ? this.subordinates.values() : this.subordinates.entries());
+    getSubordinates(flatOutput?: boolean): IterableIterator<Array<BaseEmployee>> | IterableIterator<[EmployeeDivision, Array<BaseEmployee>]> {
+        return flatOutput ? this.subordinates.values() : this.subordinates.entries();
     }
 }
 
@@ -88,7 +88,7 @@ export class Admin extends BaseEmployee implements IManageEmployee {
         this.subordinates.get(person.department).splice(indexOfPerson, 1);
     }
 
-    getSubordinates(flatOutput?: boolean): void {
-        console.log(flatOutput ? this.subordinates.values() : this.subordinates.entries());
+    getSubordinates(flatOutput?: boolean): IterableIterator<Array<BaseEmployee>> | IterableIterator<[EmployeeDivision, Array<BaseEmployee>]> {
+        return flatOutput ? this.subordinates.values() : this.subordinates.entries();
     }
 }
