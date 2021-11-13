@@ -1,3 +1,5 @@
+import {ManageEmployee} from "./task_2";
+
 export enum EmployeeDivision{
     /**
      * IT отдел
@@ -18,3 +20,7 @@ export enum EmployeeDivision{
      */
     administration
 }
+
+export type BaseEmployeeDivision = EmployeeDivision.calculus | EmployeeDivision.IT;
+
+export type ManageEmployeeDivision = EmployeeDivision.administration | EmployeeDivision.management;
