@@ -1,5 +1,3 @@
-import { EmployeeDivision } from "../empoyee-separate.enum";
-
 /**
  * Задание 1 - директор тоже работник
  * Изучите enum EmployeeDivision.
@@ -25,10 +23,52 @@ import { EmployeeDivision } from "../empoyee-separate.enum";
  *
  *
  */
+import {EmployeeDivision} from "../empoyee-separate.enum";
 
 export abstract class BaseEmployee {
+    private readonly _name: string;
+    private readonly _department: EmployeeDivision;
+    private readonly _authorities: Authority[];
+
+    protected constructor(name: string, department: EmployeeDivision, authorities: Authority[]) {
+        if (!name || !authorities) {
+            throw new Error();
+        }
+
+        this._name = name;
+        this._department = department
+        this._authorities = authorities;
+    }
+
+    get name() {
+        return this._name;
+    }
+
+    get department() {
+        return this._department;
+    }
+
+    public getAuthority(): void {
+        console.log(this._authorities);
+    }
+}
+
+export enum Authority {
+    KickOutFromWork,
+    Recruit,
+    ChangeSalary,
+    PassageToARoom,
+    PassageToBRoom,
+    PassageToCRoom,
+    PassageToAllRooms
 }
 
 export interface IManageEmployee {
+    subordinates: Map<EmployeeDivision, BaseEmployee[]>;
 
+    getSubordinates(flatOutput?: boolean): void;
+
+    addSubordinate(person: BaseEmployee): boolean;
+
+    removeSubordinate(person: BaseEmployee): boolean;
 }
