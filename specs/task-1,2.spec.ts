@@ -37,4 +37,5 @@ test("AdministrationSpecialist", () => {
     expect(administrationSpecialist.removeSubordinate(itSpecialist)).toBe(true);
     administrationSpecialist.getSubordinates();
     expect(administrationSpecialist.department).toBe(EmployeeDivision.administration);
-})
+});
+

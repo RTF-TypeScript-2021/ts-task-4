@@ -48,9 +48,7 @@ export abstract class BaseEmployee {
         return this._department;
     }
 
-    public getAuthority(): void {
-        console.log(this._authorities);
-    }
+    public getAuthority = (): void => console.log(this._authorities);
 }
 
 export enum Authority {

@@ -18,16 +18,14 @@ export class CalculusSpecialist extends BaseEmployee {
     }
 }
 
-abstract class ManageEmployee extends BaseEmployee implements IManageEmployee {
+export abstract class ManageEmployee extends BaseEmployee implements IManageEmployee {
     private readonly _subordinates: Map<EmployeeDivision, BaseEmployee[]> = new Map<EmployeeDivision, BaseEmployee[]>();
 
     get subordinates() {
         return this._subordinates;
     }
 
-    getSubordinates(flatOutput?: boolean): void {
-        console.log(flatOutput ? this._subordinates.values() : this._subordinates);
-    }
+    getSubordinates = (flatOutput?: boolean): void => console.log(flatOutput ? this._subordinates.values() : this._subordinates);
 
     addSubordinate(person: BaseEmployee): boolean {
         if (!person) {
