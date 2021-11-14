@@ -27,8 +27,60 @@ import { EmployeeDivision } from "../empoyee-separate.enum";
  */
 
 export abstract class BaseEmployee {
+    constructor(public fullName: string, public division: EmployeeDivision){}
+    public getAuthority(): string{
+        return "ждет своего часа";
+    }
+}
+
+export abstract class ManageEmployee extends BaseEmployee implements IManageEmployee {
+    public subordinates: Map<EmployeeDivision, Array<BaseEmployee>>;
+    constructor(fullName: string, division: EmployeeDivision) {
+        super(fullName, division);
+    }
+    public addSubordinate(person: BaseEmployee) {
+        const tmpEmployees:Array<BaseEmployee> = this.subordinates.get(person.division);
+        if(!tmpEmployees){
+            throw new Error("This division is not in subordinate");
+        } 
+        if (tmpEmployees.includes(person)){
+            throw new Error("this employee is already in a subordinate")
+        } else {
+            this.subordinates.get(person.division).push(person);
+        }
+    }
+
+    public getSubordinates(flatOutput?: boolean): Array<BaseEmployee> | Map<EmployeeDivision, Array<BaseEmployee>> {
+        if (flatOutput === false) {
+            return this.subordinates;
+        } else {
+            const tmpArr: Array<BaseEmployee> = [];
+            this.subordinates.forEach((employers: Array<BaseEmployee>) => {
+                tmpArr.concat(employers);
+            })
+
+            return tmpArr;
+        }
+    }
+
+    public removeSubordinate(person: BaseEmployee) {
+        const tmpEmployees:Array<BaseEmployee> = this.subordinates.get(person.division);
+        if(!tmpEmployees){
+            throw new Error("This division is not in subordinate");
+        } 
+        if (tmpEmployees.includes(person)){
+            this.subordinates.set(person.division, tmpEmployees.filter(
+                (employee:BaseEmployee) => employee !== person
+            ))
+        } else {
+            throw new Error("Еhis employee is not found in the subordinate")
+        }
+    }
 }
 
 export interface IManageEmployee {
-
+    subordinates: Map<EmployeeDivision, Array<BaseEmployee>>;
+    getSubordinates(flatOutput?:boolean): Array<BaseEmployee> | Map<EmployeeDivision, Array<BaseEmployee>>;
+    addSubordinate(person: BaseEmployee): void;
+    removeSubordinate(person: BaseEmployee): void;
 }
