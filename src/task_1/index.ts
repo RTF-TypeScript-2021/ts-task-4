@@ -26,9 +26,59 @@ import { EmployeeDivision } from "../empoyee-separate.enum";
  *
  */
 
-export abstract class BaseEmployee {
+export interface IBaseEmployee {
+    fullName: string;
+    department: EmployeeDivision;
+
+    getAuthority(): void;
 }
 
-export interface IManageEmployee {
 
+export abstract class ManageEmployee implements IBaseEmployee{
+    subordinates: Map<EmployeeDivision, Set<IBaseEmployee>>;
+
+    fullName: string;
+    department: EmployeeDivision;
+    canSubordinate: boolean;
+
+    getAuthority() {
+        console.log("ManageEmployee authorities");
+    }
+
+
+    addSubordinate(person: IBaseEmployee): void {
+        if (this.subordinates.has(person.department)) {
+            const departmentSubordinates = this.subordinates.get(person.department);
+            if (departmentSubordinates.has(person)) {
+                throw new Error("person is already subordinated");
+            } else {
+                departmentSubordinates.add(person);
+            }
+        } else {
+            this.subordinates.set(person.department, new Set([person]));
+        }
+    }
+
+    getSubordinates(flatOutput?: boolean): void {
+        if (flatOutput) {
+            this.subordinates.forEach( subs => {
+                console.log(Array.from(subs).toString());
+            })
+        } else {
+            this.subordinates.forEach( (value, key) => {
+                console.log(`${ key }: ${ Array.from(value).toString() }`);
+            })
+        }
+    }
+
+    removeSubordinate(person: IBaseEmployee): void {
+        if (this.subordinates.has(person.department)) {
+            const departmentSubordinates = this.subordinates.get(person.department);
+            if (departmentSubordinates.has(person)) {
+                throw new Error("person is already subordinated");
+            } else {
+                departmentSubordinates.delete(person);
+            }
+        }
+    }
 }
