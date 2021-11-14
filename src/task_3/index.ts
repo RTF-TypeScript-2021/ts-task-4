@@ -13,7 +13,7 @@ import {AdministrationEmployee, CalculusEmployee, ItEmployee, ManagementEmployee
 
 export abstract class EmployeeFabric{
     static createInstance(division: EmployeeDivision, name: string): Employee{
-        if(!name && division < 0 && division > 3){
+        if(!name || division < 0 || division > 3){
             throw "Invalid name or division";
         }
 
