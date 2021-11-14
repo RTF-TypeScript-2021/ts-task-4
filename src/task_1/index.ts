@@ -21,14 +21,24 @@ import { EmployeeDivision } from "../empoyee-separate.enum";
  * 3. removeSubordinate(person: BaseEmployee) удаляет сотрудника из списка
  * Интерфейс определяет следущее поле:
  * 1. subordinates - массив, где ключ - департамент, а значение - массив сотрудников.
- *
- *
- *
  */
 
-export abstract class BaseEmployee {
+ export abstract class BaseEmployee {
+    public fullname: string;
+    public department: EmployeeDivision;
+
+    constructor(fullname:string, department: EmployeeDivision){
+        this.fullname = fullname;
+        this.department = department;
+    }
+
+    abstract getAuthority(): void;
 }
 
-export interface IManageEmployee {
+export interface IManageEmployee{
+    getSubordinates(flatOutput?: boolean): void;
+    addSubordinate(person: BaseEmployee): void;
+    removeSubordinate(person: BaseEmployee): void;
 
+    subordinates: Map<EmployeeDivision, BaseEmployee[]>;
 }
