@@ -7,27 +7,29 @@ import { EmployeeDivision } from "../empoyee-separate.enum";
  * Реализуйте необходимые методы.
  */
 class ITEmployee extends BaseEmployee {
-    constructor(fullName: string) {
-        super(fullName, EmployeeDivision.IT)
+    constructor(name: string) {
+        super(name, EmployeeDivision.IT)
     }
 }
 
 class CalculusEmployee extends BaseEmployee {
-    constructor(fullName: string) {
-        super(fullName, EmployeeDivision.calculus)
+    constructor(name: string) {
+        super(name, EmployeeDivision.calculus)
     }
 }
 
 class ManagementEmployee extends ManageEmployee {
     public subordinates: Map<EmployeeDivision, Array<BaseEmployee>>;
 
-    constructor(fullName: string) {
-        super(fullName, EmployeeDivision.management)
+    constructor(name: string) {
+        super(name, EmployeeDivision.management)
     }
 }
 
 class AdministrationEmployee extends ManageEmployee {
-    constructor(fullName: string) {
-        super(fullName, EmployeeDivision.administration)
+    constructor(name: string) {
+        super(name, EmployeeDivision.administration)
     }
 }
+
+export {AdministrationEmployee, ManagementEmployee, CalculusEmployee, ITEmployee}
