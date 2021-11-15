@@ -1,5 +1,5 @@
-import { BaseEmployee, IManageEmployee } from "../task_1";
-import { EmployeeDivision } from "../empoyee-separate.enum";
+import {BaseEmployee, IManageEmployee} from "../task_1";
+import {EmployeeDivision} from "../empoyee-separate.enum";
 
 /**
  * Определите для каждого типа из EmployeeDivision
@@ -7,3 +7,68 @@ import { EmployeeDivision } from "../empoyee-separate.enum";
  * Реализуйте необходимые методы.
  */
 
+export class ITEmployee extends BaseEmployee {
+    constructor(name: string) {
+        super(name, EmployeeDivision.IT);
+    }
+}
+
+export class CalculusEmployee extends BaseEmployee {
+    constructor(name: string) {
+        super(name, EmployeeDivision.calculus);
+    }
+}
+
+export class ManagmentEmployee extends BaseEmployee implements IManageEmployee {
+    constructor(name: string) {
+        super(name, EmployeeDivision.management);
+    }
+
+    subordinates: Map<EmployeeDivision, BaseEmployee[]>;
+    getSubordinates(flatOutput?: boolean) {
+        if(flatOutput) {
+            console.log(this.subordinates.values());
+        } else {
+            console.log(this.subordinates.entries());
+        }
+    }
+
+    addSubordinate(person: BaseEmployee) {
+        this.subordinates.get(person.division).push(person);
+    }
+
+    removeSubordinate(person: BaseEmployee) {
+        const index = this.subordinates.get(person.division).indexOf(person);
+        if (index === -1) {
+            throw new Error("Данного работника нет в базе");
+        }
+        this.subordinates.get(person.division).splice(index,1);
+    }
+}
+
+export class AdministrationEmployee extends BaseEmployee implements IManageEmployee {
+    constructor(name: string) {
+        super(name, EmployeeDivision.administration);
+    }
+
+    subordinates: Map<EmployeeDivision, BaseEmployee[]>;
+    getSubordinates(flatOutput?: boolean) {
+        if(flatOutput) {
+            console.log(this.subordinates.values());
+        } else {
+            console.log(this.subordinates.entries());
+        }
+    }
+
+    addSubordinate(person: BaseEmployee) {
+        this.subordinates.get(person.division).push(person);
+    }
+
+    removeSubordinate(person: BaseEmployee) {
+        const index = this.subordinates.get(person.division).indexOf(person);
+        if (index === -1) {
+            throw new Error("Данного работника нет в базе");
+        }
+        this.subordinates.get(person.division).splice(index,1);
+    }
+}
