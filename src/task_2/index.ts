@@ -20,16 +20,16 @@ export class CalculusEmployee extends BaseEmployee{
 }
 
 
-abstract class IManageEmployesSub extends BaseEmployee implements IManageEmployee{
+export abstract class IManageEmployesSub extends BaseEmployee implements IManageEmployee{
     constructor(name: string, departament: EmployeeDivision){
         super(name, departament);
     }
     
     subordinates: BaseEmployee[][];
-    getSubordinates?(flatOutput?: boolean): BaseEmployee[] | BaseEmployee[][] {
+    getSubordinates?(flatOutput?: boolean): void {
         const subArray: BaseEmployee[] = this.subordinates.flat();
         
-        return flatOutput === false ? this.subordinates : subArray;
+       flatOutput === false ? console.log(this.subordinates) : console.log(subArray);
     }
     addSubordinate(person: BaseEmployee): void {
         if(this.subordinates[person.department].find(per => per === person)){ 

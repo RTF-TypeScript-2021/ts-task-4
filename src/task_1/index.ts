@@ -44,7 +44,7 @@ export abstract class BaseEmployee {
 
 export interface IManageEmployee {
     subordinates: Array<Array<BaseEmployee>>;
-    getSubordinates?(flatOutput?: boolean): BaseEmployee[] |  BaseEmployee[][];
+    getSubordinates?(flatOutput?: boolean): void;
     addSubordinate(person: BaseEmployee): void;
     removeSubordinate(person: BaseEmployee): void;
 }
