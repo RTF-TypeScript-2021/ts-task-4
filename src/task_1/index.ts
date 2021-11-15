@@ -1,4 +1,3 @@
-import { EmployeeDivision } from "../empoyee-separate.enum";
 
 /**
  * Задание 1 - директор тоже работник
@@ -25,10 +24,37 @@ import { EmployeeDivision } from "../empoyee-separate.enum";
  *
  *
  */
+import {EmployeeDivision} from "../empoyee-separate.enum";
 
 export abstract class BaseEmployee {
+    protected _fullanme: string;
+    protected _department: EmployeeDivision;
+    
+    protected constructor(fullName: string, department: EmployeeDivision) {
+        if (!fullName) {
+            throw new Error("Wrong input arguments")
+        }
+        this._fullanme = fullName;
+        this._department = department;
+    }
+    
+    public get fullName() {
+        return this._fullanme;
+    }
+    
+    public get department() {
+        return this._department;
+    }
+    
+    public abstract getAuthority(): void;
 }
 
 export interface IManageEmployee {
-
+    subordinates: Map<EmployeeDivision, BaseEmployee[]>;
+    
+    getSubordinates(flatOutput?: boolean): void;
+    
+    addSubordinate(person: BaseEmployee): boolean;
+    
+    removeSubordinate(person: BaseEmployee): boolean;
 }
