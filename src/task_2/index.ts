@@ -10,11 +10,17 @@ class ITEmployee extends BaseEmployee {
     constructor(name: string) {
         super(name, EmployeeDivision.IT)
     }
+    public getAuthority(): string{
+        return "загружаю npm пакеты"
+    }
 }
 
 class CalculusEmployee extends BaseEmployee {
     constructor(name: string) {
         super(name, EmployeeDivision.calculus)
+    }
+    public getAuthority(): string{
+        return "любит c1"
     }
 }
 
@@ -24,11 +30,17 @@ class ManagementEmployee extends ManageEmployee {
     constructor(name: string) {
         super(name, EmployeeDivision.management)
     }
+    public getAuthority(): string{
+        return "подпинывает подчиненных"
+    }
 }
 
 class AdministrationEmployee extends ManageEmployee {
     constructor(name: string) {
         super(name, EmployeeDivision.administration)
+    }
+    public getAuthority(): string{
+        return "подпинывает подчиненных"
     }
 }
 

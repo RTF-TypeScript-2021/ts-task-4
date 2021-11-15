@@ -25,7 +25,7 @@ class Company {
         );
     }
 
-    public dismissEmployee(person: IBaseEmployee):boolean {
+    public dismissEmployee(person: IBaseEmployee):void {
         //Если есть подчиненные, то их нужно распределить
         if (person instanceof ManageEmployee && person.subordinates.size !== 0) {
             throw new Error ("distribute the subordinates before the dismissal of the manager") 
@@ -38,21 +38,19 @@ class Company {
         this.employeesRepository = this.employeesRepository.filter(
             (item:IBaseEmployee) => item !== person
         )
-
-        return false;
     }
 
-    public addEmployee(name:string, divicion:EmployeeDivision, 
-        isManeger:boolean, toManage:IManageEmployee=this.genDirector): BaseEmployee | ManageEmployee {
-        let newEmployee:IBaseEmployee;
-        if (isManeger){
-            newEmployee = this.employeeFabric.createManageInstance(divicion, name);
-        } else {
-            newEmployee = this.employeeFabric.createBaseInstance(divicion, name);
-        }
-        this.employeesRepository.push(newEmployee);
-        
-        //назначили руководителя, если никого нет, то в подчинении ген.дира
+    public addBaseEmployee(name:string, divicion:EmployeeDivision, 
+        toManage:IManageEmployee=this.genDirector): IBaseEmployee {
+        const newEmployee:IBaseEmployee = this.employeeFabric.createBaseInstance(divicion, name);
+        toManage.addSubordinate(newEmployee);
+
+        return newEmployee;
+    }
+
+    public addManageEmployee(name:string, divicion:EmployeeDivision, 
+        toManage:IManageEmployee=this.genDirector): IManageEmployee {
+        const newEmployee:IManageEmployee = this.employeeFabric.createManageInstance(divicion, name);
         toManage.addSubordinate(newEmployee);
 
         return newEmployee;
@@ -67,13 +65,18 @@ class Company {
     public moveEmployee(person: IBaseEmployee, newDivicion:EmployeeDivision, 
         isManage: boolean, toManage?: IManageEmployee): void {
         this.dismissEmployee(person);
-        this.addEmployee(person.name,newDivicion,isManage, toManage);
+        if (isManage) {
+            this.addManageEmployee(person.name,newDivicion,toManage);
+        } else {
+            this.addBaseEmployee(person.name,newDivicion,toManage);
+        }
+        
     }
 
     /**
      * Перевод всех подчиненных от одного руководителя к другому
-     * @param fromManage 
-     * @param toManage 
+     * @param fromManage экземпляр руководителя
+     * @param toManage экземпляр руководителя
      */
     public moveSubordinates(fromManage: IManageEmployee, toManage: IManageEmployee, ){
         (fromManage.getSubordinates(true) as Array<BaseEmployee>).forEach(
@@ -82,13 +85,13 @@ class Company {
         fromManage.subordinates.clear();
     }
 
-    public getSubordinatesTree(fromPerson: IManageEmployee, tabs=0): void {
+    public displaySubordinatesTree(fromPerson: IManageEmployee, tabs=0): void {
         console.log('\t'.repeat(tabs),"|",fromPerson.name, EmployeeDivision[fromPerson.division]);
         console.log('\t'.repeat(tabs),"|","-----------");
         const tmp:Array<BaseEmployee> = fromPerson.getSubordinates(true) as Array<BaseEmployee>;
         tmp.forEach(item => {
             if (item instanceof ManageEmployee) {
-                this.getSubordinatesTree(item, tabs+1);
+                this.displaySubordinatesTree(item, tabs+1);
             } else {
                 console.log('\t'.repeat(tabs+1),"|",item.name);
                 console.log('\t'.repeat(tabs+1),"|","-----------");
@@ -97,32 +100,29 @@ class Company {
     }
 }
 
-const ef = new EmployeeFabric();
-const company = new Company(ef,"BIG BOSS");
 
+const company = new Company(new EmployeeFabric(),"BIG BOSS");
 
-const a1 = company.addEmployee("admin1", EmployeeDivision.administration, true);
-const a2 = company.addEmployee("admin2", EmployeeDivision.administration, true);
+//два администратора под управлением директора
+const a1 = company.addManageEmployee("admin1", EmployeeDivision.administration);
+const a2 = company.addManageEmployee("admin2", EmployeeDivision.administration);
 
-const m1 = company.addEmployee("Manager1", EmployeeDivision.management, true, a1 as ManageEmployee);
-const m2 = company.addEmployee("Manager2", EmployeeDivision.management, true);
-const m3 = company.addEmployee("Manager3", EmployeeDivision.management, true);
+//один менеджер под управлением директора
+const m1 = company.addManageEmployee("manager1", EmployeeDivision.management);
 
-const i1 = company.addEmployee("IT spec1", EmployeeDivision.IT, false, m1 as ManageEmployee);
-company.addEmployee("IT spec2", EmployeeDivision.IT, false, m1 as ManageEmployee);
-company.addEmployee("IT spec3", EmployeeDivision.IT, false, m1 as ManageEmployee);
-company.addEmployee("culc spec-m1", EmployeeDivision.calculus, false, m1 as ManageEmployee);
+//два менеджера под управлением администратора a1
+const m2 = company.addManageEmployee("Manager2", EmployeeDivision.management, a1);
+const m3 = company.addManageEmployee("Manager3", EmployeeDivision.management, a1);
 
+//два IT специалиста и бухгалтер под управлением менеджера m2
+company.addBaseEmployee("IT spec2", EmployeeDivision.IT, m2);
+company.addBaseEmployee("IT spec3", EmployeeDivision.IT, m2);
+company.addBaseEmployee("culc spec-m1", EmployeeDivision.calculus, m2);
 
-company.addEmployee("culc spec1", EmployeeDivision.calculus, false, m2 as ManageEmployee);
-company.addEmployee("culc spec2", EmployeeDivision.calculus, false, m2 as ManageEmployee);
-company.addEmployee("culc spec3", EmployeeDivision.calculus, false, m2 as ManageEmployee);
+//три бухгалтера под управлением администратора a2
+company.addBaseEmployee("culc spec1", EmployeeDivision.calculus, a2);
+company.addBaseEmployee("culc spec2", EmployeeDivision.calculus, a2);
+company.addBaseEmployee("culc spec3", EmployeeDivision.calculus, a2);
 
+company.displaySubordinatesTree(company.genDirector);
 
-company.dismissEmployee(m1);
-
-company.getSubordinatesTree(company.genDirector);
-
-company.dismissEmployee(i1);
-company.getSubordinatesTree(company.genDirector);
-//console.log(company.employeesRepository)

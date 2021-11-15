@@ -15,6 +15,8 @@ import { AdministrationEmployee, ITEmployee, ManagementEmployee, CalculusEmploye
 export class EmployeeFabric implements IEmployeeFabric{
     /*Если будем опираться только на division, то не сможем в будущем создать класс Teamlead, который бы смог
     быть в IT отделе и управлять людьми. Теперь достаточно вызвать createManageInstance(divicion.IT, Neo)*/
+
+    //UPD: подозрение, что перемудрил
     createManageInstance(division:EmployeeDivision, name:string): IManageEmployee{
         return ManagerEmployeeFabric.createEmployee(division, name);
     }
