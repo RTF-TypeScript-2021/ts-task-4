@@ -8,3 +8,34 @@
  * https://refactoring.guru/ru/design-patterns/abstract-factory
 */
 
+import {BaseEmployee, IManageEmployee} from "../task_1";
+import {EmployeeDivision} from "../empoyee-separate.enum";
+import {Administrator, Calculus, ITEmployee, Manager} from "../task_2";
+
+export interface IEmployeeFactory {
+    makeBaseWorker: (department: EmployeeDivision.IT |
+       EmployeeDivision.calculus, fullName: string) => BaseEmployee;
+
+    makeManageWorker: (department: EmployeeDivision.administration |
+       EmployeeDivision.management, fullName: string) => IManageEmployee;
+}
+
+export class Worker implements IEmployeeFactory{
+    public makeManageWorker(departure: EmployeeDivision.management |
+       EmployeeDivision.administration, fullName: string): IManageEmployee {
+        if (departure === EmployeeDivision.management) {
+            return new Manager(fullName);
+        } else{
+            return new Administrator(fullName);
+        }
+    }
+
+    public makeBaseWorker(departure: EmployeeDivision.IT |
+       EmployeeDivision.calculus, fullName: string): BaseEmployee {
+        if (departure === EmployeeDivision.calculus) {
+            return new Calculus(fullName);
+        } else{
+            return new ITEmployee(fullName);
+        }
+    }
+}
