@@ -1,4 +1,3 @@
-
 /**
  * Задание 1 - директор тоже работник
  * Изучите enum EmployeeDivision.
@@ -54,7 +53,7 @@ export interface IManageEmployee {
     
     getSubordinates(flatOutput?: boolean): void;
     
-    addSubordinate(person: BaseEmployee): boolean;
+    addSubordinate(person: BaseEmployee): void;
     
-    removeSubordinate(person: BaseEmployee): boolean;
+    removeSubordinate(person: BaseEmployee): void;
 }
