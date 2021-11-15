@@ -22,13 +22,31 @@ import { EmployeeDivision } from "../empoyee-separate.enum";
  * Интерфейс определяет следущее поле:
  * 1. subordinates - массив, где ключ - департамент, а значение - массив сотрудников.
  *
- *
+ *  
  *
  */
 
 export abstract class BaseEmployee {
+    readonly fullName: string;
+    readonly department: EmployeeDivision;
+
+    constructor(fullName: string, department: EmployeeDivision) {
+        this.fullName = fullName;
+        this.department = department;
+    }
+
+    getAuthority(): void {
+        if (this.department === EmployeeDivision.IT || this.department === EmployeeDivision.calculus) {
+            console.log(`${this.fullName} не имеет подчиненных`);
+        } else {
+            console.log(`${this.fullName} имеет подчиненных`);
+        }
+    }
 }
 
 export interface IManageEmployee {
-
+    subordinates: BaseEmployee[][];
+    getSubordinates(flatOutput?: boolean): void;
+    addSubordinate(person: BaseEmployee): void;
+    removeSubordinate(person: BaseEmployee): void;
 }
