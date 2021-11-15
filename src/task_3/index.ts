@@ -7,4 +7,21 @@
  * https://refactoring.guru/ru/design-patterns/factory-method
  * https://refactoring.guru/ru/design-patterns/abstract-factory
 */
+import {EmployeeDivision} from "../empoyee-separate.enum";
+import {BaseEmployee} from "../task_1";
+import {AdministrationEmployee, CalculusEmployee, ITEmployee, ManagementEmployee} from "../task_2";
 
+export class EmployeeFabric {
+    createEmployee(fullName: string, department: EmployeeDivision): BaseEmployee {
+        switch (department) {
+            case EmployeeDivision.IT:
+                return new ITEmployee(fullName);
+            case EmployeeDivision.calculus:
+                return new CalculusEmployee(fullName);
+            case EmployeeDivision.management:
+                return new ManagementEmployee(fullName);
+            case EmployeeDivision.administration:
+                return new AdministrationEmployee(fullName);
+        }
+    }
+}
