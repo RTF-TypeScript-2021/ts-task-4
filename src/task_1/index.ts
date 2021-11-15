@@ -27,8 +27,27 @@ import { EmployeeDivision } from "../empoyee-separate.enum";
  */
 
 export abstract class BaseEmployee {
+    public name: string;
+    public division: EmployeeDivision;
+    public powers: string[];
+
+    constructor(name: string, division: EmployeeDivision) {
+        this.name = name;
+        this.division = division;
+    }
+
+    public getAuthority() {
+        console.log(this.powers.join(', '));
+    }
+
+    public addPower(power: string): void{
+        this.powers.push(power);
+    }
 }
 
 export interface IManageEmployee {
-
+    subordinates: Map<EmployeeDivision, BaseEmployee[]>;
+    getSubordinates(flatOutput?: boolean): Map<EmployeeDivision, BaseEmployee[]> | BaseEmployee[];
+    addSubordinate(person: BaseEmployee): void;
+    removeSubordinate(person: BaseEmployee): void;
 }
