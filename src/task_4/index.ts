@@ -1,29 +1,43 @@
+// Стоит вынести в specs/task-4.spec.ts, но чтобы избежать добавления доп. файлов - реализую тут
+
 import { EmployeeDivision } from "../empoyee-separate.enum";
 import { AdministrationEmployee, CalculusEmployee, ITEmployee, ManagementEmployee, ManagerEmployee } from "../task_2";
 import { EmployeeFabric } from "../task_3";
 
 test('Create instances', () => {
-    const IT = EmployeeFabric.createInstance('bobaIT', EmployeeDivision.IT);
+    const IT = EmployeeFabric.createInstance('empIT', EmployeeDivision.IT);
     expect(IT).toBeInstanceOf(ITEmployee);
 
-    const calc = EmployeeFabric.createInstance('bobaCalc', EmployeeDivision.calculus);
+    const calc = EmployeeFabric.createInstance('empCalc', EmployeeDivision.calculus);
     expect(calc).toBeInstanceOf(CalculusEmployee);
 
-    const manage = EmployeeFabric.createInstance('bobaManage', EmployeeDivision.management);
+    const manage = EmployeeFabric.createInstance('empManage', EmployeeDivision.management);
     expect(manage).toBeInstanceOf(ManagementEmployee);
 
-    const admin = EmployeeFabric.createInstance('bobaAdmin', EmployeeDivision.administration);
+    const admin = EmployeeFabric.createInstance('empAdmin', EmployeeDivision.administration);
     expect(admin).toBeInstanceOf(AdministrationEmployee);
 });
 
-test('Employee methods', () => {
-    const manage = EmployeeFabric.createInstance('bobaManage', EmployeeDivision.management) as ManagerEmployee;
-    expect(manage.subordinates).toBeDefined();
-    expect(manage.subordinates.keys.length).toEqual(0);
+test('Check employee base methods', () => {
+    const cnsl = jest.spyOn(console, 'log');
 
-    const IT1 = EmployeeFabric.createInstance('bobaIT1', EmployeeDivision.IT);
-    const IT2 = EmployeeFabric.createInstance('bobaIT2', EmployeeDivision.IT);
-    const calc = EmployeeFabric.createInstance('bobaIT2', EmployeeDivision.calculus);
+    const IT = EmployeeFabric.createInstance('empIT', EmployeeDivision.IT);
+    IT.getAuthority();
+    expect(cnsl).toHaveBeenCalledWith('Works in the IT department');
+
+    const manage = EmployeeFabric.createInstance('empManage', EmployeeDivision.management);
+    manage.getAuthority();
+    expect(cnsl).toHaveBeenCalledWith('Works in the Management department, has subordinates');
+})
+
+test('Check employee with subordinates methods', () => {
+    const manage = EmployeeFabric.createInstance('empManage', EmployeeDivision.management) as ManagerEmployee;
+    expect(manage.subordinates).toBeDefined();
+    expect(Array.from(manage.subordinates.keys()).length).toEqual(0);
+
+    const IT1 = EmployeeFabric.createInstance('empIT1', EmployeeDivision.IT);
+    const IT2 = EmployeeFabric.createInstance('empIT2', EmployeeDivision.IT);
+    const calc = EmployeeFabric.createInstance('empCalc', EmployeeDivision.calculus);
 
     manage.addSubordinate(IT1);
     expect(Array.from(manage.subordinates.keys()).length).toEqual(1);
@@ -43,3 +57,19 @@ test('Employee methods', () => {
     manage.addSubordinate(calc);
     expect(Array.from(manage.subordinates.keys()).length).toEqual(2);
 });
+
+test('Remove a non-existent subordinate', () => {
+    const manage = EmployeeFabric.createInstance('empManage', EmployeeDivision.management) as ManagerEmployee;
+    expect(() =>
+        manage.removeSubordinate(EmployeeFabric.createInstance('none', EmployeeDivision.IT))
+    ).toThrow();
+})
+
+test('Add one person as subordinate twice to one manager', () => {
+    const manage = EmployeeFabric.createInstance('empManage', EmployeeDivision.management) as ManagerEmployee;
+    const IT = EmployeeFabric.createInstance('empIT', EmployeeDivision.IT);
+    manage.addSubordinate(IT);
+    expect(() => 
+        manage.addSubordinate(IT)
+    ).toThrow();
+})

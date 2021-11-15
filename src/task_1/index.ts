@@ -1,20 +1,24 @@
 import { EmployeeDivision } from "../empoyee-separate.enum";
+import { EmployeeFabric } from "../task_3";
 
 export abstract class BaseEmployee{
     private _name: string;
-    private _employeeDiv: EmployeeDivision;
+    private _division: EmployeeDivision;
 
-    public get division() {
-        return this._employeeDiv;
+    public get division(): EmployeeDivision {
+        return this._division;
+    }
+    public get name(): string {
+        return this._name;
     }
 
     constructor(name: string, division: EmployeeDivision) {
         this._name = name;
-        this._employeeDiv = division;
+        this._division = division;
     }
 
     public getAuthority() {
-        return;
+        console.log(EmployeeFabric.divisionAuthoritys[this._division]);
     }
 }
 
