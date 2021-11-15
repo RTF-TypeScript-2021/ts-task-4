@@ -13,7 +13,7 @@ export abstract class ManagerEmployee extends BaseEmployee implements IManageEmp
         this._subordinates = subordinates;
     }
 
-    getSubordinates(flatOutput?: boolean): BaseEmployee[] | Map<EmployeeDivision, BaseEmployee[]> {
+    public getSubordinates(flatOutput?: boolean): BaseEmployee[] | Map<EmployeeDivision, BaseEmployee[]> {
         if (flatOutput) {
             return Array.from(this._subordinates.values()).flat();
         }
@@ -21,7 +21,7 @@ export abstract class ManagerEmployee extends BaseEmployee implements IManageEmp
         return this._subordinates;
     }
 
-    addSubordinate(person: BaseEmployee): void {
+    public addSubordinate(person: BaseEmployee): void {
         if (this._subordinates.has(person.division)) {
             if (this._subordinates.get(person.division).some(x => x === person)){
                 throw new Error(`Person ${person.name} already signed as ${this.name} subordinate`)
@@ -32,7 +32,7 @@ export abstract class ManagerEmployee extends BaseEmployee implements IManageEmp
         }
     }
 
-    removeSubordinate(person: BaseEmployee): void {
+    public removeSubordinate(person: BaseEmployee): void {
         const subordinate = this._subordinates.get(person.division);
 
         if (subordinate) {
