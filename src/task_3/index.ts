@@ -8,3 +8,27 @@
  * https://refactoring.guru/ru/design-patterns/abstract-factory
 */
 
+import { EmployeeDivision } from "../empoyee-separate.enum";
+import { Administrator, CalculusEmployee, ITEmploee, ManageEmployee } from "../task_2";
+
+export class HoodFactory{
+    static createBasicGangstaWorker(department: EmployeeDivision, fullname: string) {
+        if(department === EmployeeDivision.IT){
+            return new ITEmploee(fullname);
+        }
+
+        if(department === EmployeeDivision.calculus){
+            return new CalculusEmployee(fullname);
+        }
+    }
+
+    static createManageGangstaWorker(department: EmployeeDivision, fullname: string){
+        if(department === EmployeeDivision.management){
+            return new ManageEmployee(fullname);
+        }
+
+        if(department === EmployeeDivision.administration){
+            return new Administrator(fullname);
+        }
+    }
+}
