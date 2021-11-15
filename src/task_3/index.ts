@@ -12,7 +12,7 @@ import {BaseEmployee} from "../task_1";
 import {AdministrationEmployee, CalculusEmployee, ITEmployee, ManagementEmployee} from "../task_2";
 
 export class EmployeeFabric {
-    createEmployee(fullName: string, department: EmployeeDivision): BaseEmployee {
+    public static createEmployee(fullName: string, department: EmployeeDivision): BaseEmployee {
         switch (department) {
             case EmployeeDivision.IT:
                 return new ITEmployee(fullName);
