@@ -14,17 +14,17 @@ import {ManagmentEmployee, CalculusEmployee, ITEmployee, AdministratorEmployee} 
 
 export class EmployeeFactory {
     public create(division: EmployeeDivision, name: string): BaseEmployee {
-        if (division === EmployeeDivision.management) {
-            return new ManagmentEmployee(name);
-        }
-        if (division === EmployeeDivision.calculus) {
-            return new CalculusEmployee(name);
-        }
-        if (division === EmployeeDivision.administration) {
-            return new AdministratorEmployee(name);
-        }
-        if (division === EmployeeDivision.IT) {
-            return new ITEmployee(name);
+        switch (division) {
+            case EmployeeDivision.management:
+                return new ManagmentEmployee(name);
+            case EmployeeDivision.calculus:
+                return new CalculusEmployee(name);
+            case EmployeeDivision.administration:
+                return new AdministratorEmployee(name);
+            case EmployeeDivision.IT:
+                return new ITEmployee(name);
+            default:
+                throw new Error('There is no such division');
         }
     }
 }

@@ -23,12 +23,17 @@ abstract class ManagerBaseEmployee extends BaseEmployee implements IManageEmploy
     }
 
     public addSubordinate(person: BaseEmployee): void {
-        this.subordinates.get(EmployeeDivision.management).push(person);
+        const employee = this.subordinates.get(person.division);
+        if (!!employee) {
+            employee.push(person);
+        }
     }
 
     public removeSubordinate(person: BaseEmployee): void {
-        const persons = this.subordinates.get(EmployeeDivision.management);
-        persons.splice(persons.indexOf(person));
+        const persons = this.subordinates.get(person.division);
+        if (!!persons) {
+            persons.splice(persons.indexOf(person));
+        }
     }
 }
 
