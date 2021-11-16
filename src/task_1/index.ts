@@ -26,9 +26,41 @@ import { EmployeeDivision } from "../empoyee-separate.enum";
  *
  */
 
-export abstract class BaseEmployee {
+ export abstract class BaseEmployee {
+
+    name: string;
+    department: EmployeeDivision;
+
+   constructor(name: string, department: EmployeeDivision){
+       this.name = name;
+       this.department = department;
+    }
+
+    getAuthority(): void{
+        switch(this.department){
+            case EmployeeDivision.IT:
+                console.log(`${this.name} пишет код и не имеет подчиненных`);
+                break;
+            case EmployeeDivision.calculus:
+                console.log(`${this.name}считают деньги, котрых нет и не имеют подчиненных`);
+                break;
+            case EmployeeDivision.administration:
+                console.log(`${this.name} элита сие офиса имеет подчиненных)`);
+                break;
+            case EmployeeDivision.management:
+                console.log(`${this.name} управляющий, который имеет подчиненных`);
+                break;
+            default:
+                console.log('А у нас таких работничков нет')
+        }
+    }
+
 }
 
-export interface IManageEmployee {
+export interface IManageEmployee  {
 
+    subordinates: Map<EmployeeDivision,BaseEmployee[]>;
+    getSubordinates(flatOutput?: boolean): void;
+    addSubordinate(person: BaseEmployee): void;
+    removeSubordinate(person: BaseEmployee): void;
 }
