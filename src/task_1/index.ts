@@ -40,11 +40,11 @@ export abstract class BaseEmployee {
         this._authorities = authorities;
     }
 
-    get name() {
+    public get name(): string {
         return this._name;
     }
 
-    get department() {
+    public get department(): EmployeeDivision {
         return this._department;
     }
 

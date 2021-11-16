@@ -8,6 +8,7 @@
  * https://refactoring.guru/ru/design-patterns/abstract-factory
  */
 import {BaseEmployee} from "../task_1";
+import {EmployeeDivision} from "../empoyee-separate.enum";
 import {
     AdministrationSpecialist,
     CalculusSpecialist,
@@ -17,22 +18,27 @@ import {
 } from "../task_2";
 
 export interface IFabric {
-    createInstance(name: string): BaseEmployee;
+    createBaseInstance(name: string, division: EmployeeDivision): BaseEmployee;
+
+    createManageInstance(name: string, division: EmployeeDivision): ManageEmployee;
 }
 
-export class ITFabric implements IFabric {
-    createInstance = (name: string): BaseEmployee => new ITSpecialist(name);
+export class Fabric implements IFabric {
+    createBaseInstance(name: string, division: EmployeeDivision): BaseEmployee {
+        if (division !== EmployeeDivision.calculus && division !== EmployeeDivision.IT) {
+            throw new Error("метод должен создавать только BaseEmployee")
+        }
+
+        return division === EmployeeDivision.calculus ? new CalculusSpecialist(name) : new ITSpecialist(name);
+    }
+
+    createManageInstance(name: string, division: EmployeeDivision): ManageEmployee {
+        if (division !== EmployeeDivision.management && division !== EmployeeDivision.administration) {
+            throw new Error("метод должен создавать только ManageEmployee")
+        }
+
+        return division === EmployeeDivision.management ? new ManagementSpecialist(name) : new AdministrationSpecialist(name);
+    }
 }
 
-export class CalculusFabric implements IFabric {
-    createInstance = (name: string): BaseEmployee => new CalculusSpecialist(name);
-}
-
-export class ManagementFabric implements IFabric {
-    createInstance = (name: string): ManageEmployee => new ManagementSpecialist(name);
-}
-
-export class AdministrationFabric implements IFabric {
-    createInstance = (name: string): ManageEmployee => new AdministrationSpecialist(name);
-}
 

@@ -21,13 +21,13 @@ export class CalculusSpecialist extends BaseEmployee {
 export abstract class ManageEmployee extends BaseEmployee implements IManageEmployee {
     private readonly _subordinates: Map<EmployeeDivision, BaseEmployee[]> = new Map<EmployeeDivision, BaseEmployee[]>();
 
-    get subordinates() {
+    public get subordinates(): Map<EmployeeDivision, BaseEmployee[]> {
         return this._subordinates;
     }
 
-    getSubordinates = (flatOutput?: boolean): void => console.log(flatOutput ? this._subordinates.values() : this._subordinates);
+    public getSubordinates = (flatOutput?: boolean): void => console.log(flatOutput ? this._subordinates.values() : this._subordinates);
 
-    addSubordinate(person: BaseEmployee): boolean {
+    public addSubordinate(person: BaseEmployee): boolean {
         if (!person) {
             return false;
         }
@@ -45,7 +45,7 @@ export abstract class ManageEmployee extends BaseEmployee implements IManageEmpl
         return true;
     }
 
-    removeSubordinate(person: BaseEmployee): boolean {
+    public removeSubordinate(person: BaseEmployee): boolean {
         if (!person) {
             return false;
         }
