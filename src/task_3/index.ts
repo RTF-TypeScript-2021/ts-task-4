@@ -12,7 +12,7 @@ import {BaseEmployee, IManageEmployee} from "../task_1";
 import {EmployeeDivision} from "../empoyee-separate.enum";
 import {Administrator, Calculus, ITEmployee, Manager} from "../task_2";
 
-export interface IEmployeeFactory {
+abstract class EmployeeFactory {
     makeBaseWorker: (department: EmployeeDivision.IT |
        EmployeeDivision.calculus, fullName: string) => BaseEmployee;
 
@@ -20,8 +20,8 @@ export interface IEmployeeFactory {
        EmployeeDivision.management, fullName: string) => IManageEmployee;
 }
 
-export class Worker implements IEmployeeFactory{
-    public makeManageWorker(departure: EmployeeDivision.management |
+export class Worker extends EmployeeFactory{
+    public static makeManageWorker(departure: EmployeeDivision.management |
        EmployeeDivision.administration, fullName: string): IManageEmployee {
         if (departure === EmployeeDivision.management) {
             return new Manager(fullName);
@@ -30,7 +30,7 @@ export class Worker implements IEmployeeFactory{
         }
     }
 
-    public makeBaseWorker(departure: EmployeeDivision.IT |
+    public static makeBaseWorker(departure: EmployeeDivision.IT |
        EmployeeDivision.calculus, fullName: string): BaseEmployee {
         if (departure === EmployeeDivision.calculus) {
             return new Calculus(fullName);
