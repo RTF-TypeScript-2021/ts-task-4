@@ -12,26 +12,18 @@ import {EmployeeDivision} from "../empoyee-separate.enum";
 import {Accountant, Admin, ITSpecialist, Manager} from "../task_2";
 
 
-abstract class AbstractEmployeeFactory {
-    static createBaseEmployee = (department: EmployeeDivision.IT
-        | EmployeeDivision.calculus, name: string): BaseEmployee => {
-        return undefined;
-    };
+export interface IEmployeeFactory {
+    createBaseEmployee(department: EmployeeDivision.IT
+        | EmployeeDivision.calculus, name: string): BaseEmployee;
 
-    static createManageEmployee = (department: EmployeeDivision, name: string):
-        IManageEmployee => {
-        return undefined;
-    };
+    createManageEmployee(department: EmployeeDivision, name: string):
+        IManageEmployee
 }
 
-export class EmployeeFactory extends AbstractEmployeeFactory {
-    public static createBaseEmployee(department: EmployeeDivision.IT
-        | EmployeeDivision.calculus, name: string): BaseEmployee {
-        return department === EmployeeDivision.IT ? new ITSpecialist(name) : new Accountant(name);
-    }
+export class EmployeeFactory implements IEmployeeFactory {
+    public createBaseEmployee = (department: EmployeeDivision.IT
+        | EmployeeDivision.calculus, name: string): BaseEmployee => department === EmployeeDivision.IT ? new ITSpecialist(name) : new Accountant(name);
 
-    public static createManageEmployee(department: EmployeeDivision.management
-        | EmployeeDivision.administration, name: string): IManageEmployee {
-        return department === EmployeeDivision.management ? new Manager(name) : new Admin(name);
-    }
+    public createManageEmployee = (department: EmployeeDivision.management
+        | EmployeeDivision.administration, name: string): IManageEmployee => department === EmployeeDivision.management ? new Manager(name) : new Admin(name);
 }
