@@ -27,8 +27,22 @@ import { EmployeeDivision } from "../empoyee-separate.enum";
  */
 
 export abstract class BaseEmployee {
+    name: string;
+    department: EmployeeDivision;
+
+    constructor (name: string, department: EmployeeDivision) {
+        this.name = name;
+        this.department = department;
+    }
+
+    getAuthority(): string {
+        return `An employee ${this.name} works in ${this.department}`
+    }
 }
 
-export interface IManageEmployee {
-
+export interface IManageEmployee extends BaseEmployee {
+    getSubordinates(flatOutput?: boolean): void;
+    addSubordinate(person: BaseEmployee): void;
+    removeSubordinate(person: BaseEmployee): void;
+    subordinates: Map<EmployeeDivision, BaseEmployee[]>;
 }
