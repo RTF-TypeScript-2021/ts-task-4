@@ -9,19 +9,20 @@
  */
 import {EmployeeFabric, IEmployeeFactory} from "../task_3";
 import {EmployeeDivision} from "../empoyee-separate.enum";
+import {ManageEmployee} from "../task_2";
 
 
 function createCompany(fabric: IEmployeeFactory): void {
-    const admin = fabric.createManageEmployee(EmployeeDivision.administration, 'Сашка');
-    const manager1 = fabric.createManageEmployee(EmployeeDivision.management, 'Маша');
-    const manager2 = fabric.createManageEmployee(EmployeeDivision.management, 'Катя');
-    const calculus1 = fabric.createStandardEmployee(EmployeeDivision.calculus, 'Артем');
-    const calculus2 = fabric.createStandardEmployee(EmployeeDivision.calculus, 'Пётр');
-    const calculus3 = fabric.createStandardEmployee(EmployeeDivision.calculus, 'Настя');
-    const it1 = fabric.createStandardEmployee(EmployeeDivision.IT, 'Андрей');
-    const it2 = fabric.createStandardEmployee(EmployeeDivision.IT, 'Анна');
-    const it3 = fabric.createStandardEmployee(EmployeeDivision.IT, 'Сергей');
-    const it4 = fabric.createStandardEmployee(EmployeeDivision.IT, 'Антон');
+    const admin = fabric.createEmployee(EmployeeDivision.administration, 'Сашка') as ManageEmployee;
+    const manager1 = fabric.createEmployee(EmployeeDivision.management, 'Маша') as ManageEmployee;
+    const manager2 = fabric.createEmployee(EmployeeDivision.management, 'Катя') as ManageEmployee;
+    const calculus1 = fabric.createEmployee(EmployeeDivision.calculus, 'Артем');
+    const calculus2 = fabric.createEmployee(EmployeeDivision.calculus, 'Пётр');
+    const calculus3 = fabric.createEmployee(EmployeeDivision.calculus, 'Настя');
+    const it1 = fabric.createEmployee(EmployeeDivision.IT, 'Андрей');
+    const it2 = fabric.createEmployee(EmployeeDivision.IT, 'Анна');
+    const it3 = fabric.createEmployee(EmployeeDivision.IT, 'Сергей');
+    const it4 = fabric.createEmployee(EmployeeDivision.IT, 'Антон');
     const managers = [admin, manager1, manager2];
     const employees = [calculus1, calculus2, calculus3, it1, it2, it3, it4];
     for (let i = 0; i < managers.length; i++) {

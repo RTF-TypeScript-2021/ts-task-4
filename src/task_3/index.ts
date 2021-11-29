@@ -12,23 +12,16 @@ import {EmployeeDivision} from "../empoyee-separate.enum";
 import {AdministrationEmployee, CalculusEmployee, ITEmployee, ManageEmployee, ManagementEmployee} from "../task_2";
 
 export interface IEmployeeFactory {
-    createStandardEmployee(department: EmployeeDivision.IT | EmployeeDivision.calculus, fullName: string): BaseEmployee;
-
-    createManageEmployee(department: EmployeeDivision.administration | EmployeeDivision.management, fullName: string): ManageEmployee;
+    createEmployee(department: EmployeeDivision, fullName: string): ManageEmployee | BaseEmployee;
 }
 
 export class EmployeeFabric implements IEmployeeFactory {
-    createManageEmployee(department: EmployeeDivision.administration | EmployeeDivision.management, fullName: string): ManageEmployee {
+    createEmployee(department: EmployeeDivision, fullName: string): ManageEmployee | BaseEmployee {
         switch (department) {
             case EmployeeDivision.management:
                 return new ManagementEmployee(fullName);
             case EmployeeDivision.administration:
                 return new AdministrationEmployee(fullName);
-        }
-    }
-
-    createStandardEmployee(department: EmployeeDivision.IT | EmployeeDivision.calculus, fullName: string): BaseEmployee {
-        switch (department) {
             case EmployeeDivision.IT:
                 return new ITEmployee(fullName);
             case EmployeeDivision.calculus:
