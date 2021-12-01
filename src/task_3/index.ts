@@ -8,3 +8,21 @@
  * https://refactoring.guru/ru/design-patterns/abstract-factory
 */
 
+import { EmployeeDivision } from "../empoyee-separate.enum";
+import { BaseEmployee } from "../task_1";
+import { Programmer, Calculus, Manager, Administrator } from "../task_2";
+
+export class Worker {
+    public addWorker(division: EmployeeDivision, name: string): BaseEmployee {
+        switch (division) {
+            case EmployeeDivision.management:
+                return new Manager(name);
+            case EmployeeDivision.calculus:
+                return new Calculus(name);
+            case EmployeeDivision.administration:
+                return new Administrator(name);
+            case EmployeeDivision.IT:
+                return new Programmer (name);
+        }
+    }
+} 
