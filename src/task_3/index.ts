@@ -13,16 +13,16 @@ import { BaseEmployee } from "../task_1";
 import { Programmer, Calculus, Manager, Administrator } from "../task_2";
 
 export class Worker {
-    public addWorker(division: EmployeeDivision, name: string): BaseEmployee {
+    public addWorker(division: EmployeeDivision, fullName: string): BaseEmployee {
         switch (division) {
             case EmployeeDivision.management:
-                return new Manager(name);
+                return new Manager(fullName);
             case EmployeeDivision.calculus:
-                return new Calculus(name);
+                return new Calculus(fullName);
             case EmployeeDivision.administration:
-                return new Administrator(name);
+                return new Administrator(fullName);
             case EmployeeDivision.IT:
-                return new Programmer (name);
+                return new Programmer (fullName);
         }
     }
 } 
