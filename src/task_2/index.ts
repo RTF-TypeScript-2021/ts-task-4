@@ -27,7 +27,7 @@ export class Calculus extends BaseEmployee {
     }
 }
 
-export abstract class Manager extends BaseEmployee implements IManageEmployee {
+export abstract class Manage extends BaseEmployee implements IManageEmployee {
     public readonly subordinates: Map<EmployeeDivision, BaseEmployee[]> = new Map<EmployeeDivision, BaseEmployee[]>();
 
     constructor(fullName: string, department: EmployeeDivision) {
@@ -51,7 +51,7 @@ export abstract class Manager extends BaseEmployee implements IManageEmployee {
     }
 }
 
-export class ManagementEmployee extends Manager {
+export class Manager extends Manage {
     constructor(fullName: string) {
         super(fullName, EmployeeDivision.management);
     }
@@ -61,7 +61,7 @@ export class ManagementEmployee extends Manager {
     }
 }
 
-export class AdministrationEmployee extends Manager {
+export class Administrator extends Manage {
     constructor(fullName: string) {
         super(fullName, EmployeeDivision.administration);
     }
