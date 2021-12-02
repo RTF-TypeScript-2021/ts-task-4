@@ -12,7 +12,7 @@ import { EmployeeDivision } from "../empoyee-separate.enum";
         super(fullname, EmployeeDivision.IT)
     }
 
-    getAuthority(): void {
+    public getAuthority(): void {
         console.log("Программирую");
     }
 }
@@ -22,23 +22,19 @@ export class Calculus extends BaseEmployee {
         super(fullname, EmployeeDivision.calculus)
     }
 
-    getAuthority(): void {
+    public getAuthority(): void {
         console.log("Высчитываю зарплату");
     }
 }
 
-export class Manager extends BaseEmployee implements IManageEmployee {
-    constructor(fullname: string) {
-        super(fullname, EmployeeDivision.management)
+export abstract class Manager extends BaseEmployee implements IManageEmployee {
+    public readonly subordinates: Map<EmployeeDivision, BaseEmployee[]> = new Map<EmployeeDivision, BaseEmployee[]>();
+
+    constructor(fullName: string, department: EmployeeDivision) {
+        super(fullName, department);
     }
 
-    public subordinates: Map<EmployeeDivision, BaseEmployee[]>;
-
-    getAuthority(): void {
-        console.log("Управляю сотрудниками");
-    }
-
-    getSubordinates(flatOutput?: boolean): void {
+    public getSubordinates(flatOutput?: boolean): void {
         if(flatOutput) {
             console.log(this.subordinates.values())
         } else {
@@ -46,39 +42,30 @@ export class Manager extends BaseEmployee implements IManageEmployee {
         }
     }
 
-    addSubordinate(person: BaseEmployee): void {
+    public addSubordinate(person: BaseEmployee): void {
         this.subordinates.get(person.department).push(person);
     }
 
-    removeSubordinate(person: BaseEmployee): void {
+    public removeSubordinate(person: BaseEmployee): void {
         this.subordinates.get(person.department).splice(this.subordinates.get(person.department).indexOf(person), 1)
     }
 }
 
-export class Administrator extends BaseEmployee implements IManageEmployee {
-    public subordinates: Map<EmployeeDivision, BaseEmployee[]>;
-
-    constructor(fullname: string) {
-        super(fullname, EmployeeDivision.administration)
+export class ManagementEmployee extends Manager {
+    constructor(fullName: string) {
+        super(fullName, EmployeeDivision.management);
     }
 
-    getAuthority(): void {
+    public getAuthority(): void {
+        console.log("Управляю сотрудниками");
+    }
+}
+
+export class AdministrationEmployee extends Manager {
+    constructor(fullName: string) {
+        super(fullName, EmployeeDivision.administration);
+    }
+    public getAuthority(): void {
         console.log("Управляю всем");
-    }
-
-    getSubordinates(flatOutput?: boolean): void {
-        if(flatOutput) {
-            console.log(this.subordinates.values())
-        } else {
-            console.log(this.subordinates.entries())
-        }
-    }
-
-    addSubordinate(person: BaseEmployee): void {
-        this.subordinates.get(person.department).push(person);
-    }
-
-    removeSubordinate(person: BaseEmployee): void {
-        this.subordinates.get(person.department).splice(this.subordinates.get(person.department).indexOf(person), 1)
     }
 }
