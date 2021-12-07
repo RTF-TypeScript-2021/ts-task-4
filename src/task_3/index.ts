@@ -16,7 +16,7 @@ export interface IEmployeeFactory {
 }
 
 export class EmployeeFabric implements IEmployeeFactory {
-    createEmployee(department: EmployeeDivision, fullName: string): ManageEmployee | BaseEmployee {
+    public createEmployee(department: EmployeeDivision, fullName: string): ManageEmployee | BaseEmployee {
         switch (department) {
             case EmployeeDivision.management:
                 return new ManagementEmployee(fullName);

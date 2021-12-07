@@ -19,11 +19,11 @@ export abstract class ManageEmployee extends BaseEmployee implements IManageEmpl
 
     }
 
-    addSubordinate(person: BaseEmployee): void {
+    public addSubordinate(person: BaseEmployee): void {
         this.subordinates.get(person.department)?.push(person)
     }
 
-    getSubordinates(flatOutput?: boolean): employeesInDivision | BaseEmployee[] {
+    public getSubordinates(flatOutput?: boolean): employeesInDivision | BaseEmployee[] {
         return flatOutput ?
             Array.from(this.subordinates.values()).reduce(
                 (allEmployees, employeesInDepartment) => allEmployees.concat(employeesInDepartment),
@@ -31,10 +31,9 @@ export abstract class ManageEmployee extends BaseEmployee implements IManageEmpl
             : this.subordinates;
     }
 
-    removeSubordinate(person: BaseEmployee): void {
+    public removeSubordinate(person: BaseEmployee): void {
         this.subordinates.set(person.department, this.subordinates.get(person.department).filter(p => p.fullName !== person.fullName));
     }
-
 }
 
 export class ITEmployee extends BaseEmployee {

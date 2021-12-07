@@ -36,15 +36,15 @@ export abstract class BaseEmployee {
         this._department = department;
     }
 
-    get fullName() {
+    public get fullName() {
         return this._fullName;
     }
 
-    get department() {
+    public get department() {
         return this._department;
     }
 
-    getAuthority(): string {
+    public getAuthority(): string {
         return `Name: ${this.fullName}; Department: ${this.department}`
     }
 }
