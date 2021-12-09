@@ -9,7 +9,7 @@
 */
 
 import { EmployeeDivision } from "../empoyee-separate.enum";
-import { BaseEmployee, IBaseEmployee, IManageEmployee, ManageEmployee } from "../task_1";
+import { BaseEmployee, IManageEmployee } from "../task_1";
 import { AdministrationEmployee, ITEmployee, ManagementEmployee, CalculusEmployee } from "../task_2";
 
 export class EmployeeFabric implements IEmployeeFabric{
@@ -20,7 +20,7 @@ export class EmployeeFabric implements IEmployeeFabric{
     createManageInstance(division:EmployeeDivision, name:string): IManageEmployee{
         return ManagerEmployeeFabric.createEmployee(division, name);
     }
-    createBaseInstance(division:EmployeeDivision, name:string): IBaseEmployee{
+    createBaseInstance(division:EmployeeDivision, name:string): BaseEmployee{
         return BaseEmployeeFabric.createEmployee(division, name);
     }
 }
@@ -45,7 +45,7 @@ class ManagerEmployeeFabric{
 }
 
 class BaseEmployeeFabric{
-    static createEmployee(division:EmployeeDivision, name:string):IBaseEmployee{
+    static createEmployee(division:EmployeeDivision, name:string):BaseEmployee{
         switch(division){
             case EmployeeDivision.IT:
                 return BaseEmployeeFabric.createITEmployee(name);
@@ -66,5 +66,5 @@ class BaseEmployeeFabric{
 
 export interface IEmployeeFabric{
     createManageInstance(division:EmployeeDivision, name:string): IManageEmployee;
-    createBaseInstance (division:EmployeeDivision, name:string): IBaseEmployee;
+    createBaseInstance (division:EmployeeDivision, name:string): BaseEmployee;
 }

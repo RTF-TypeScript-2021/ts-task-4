@@ -9,12 +9,12 @@
  */
 
 import { EmployeeDivision } from "../empoyee-separate.enum";
-import { BaseEmployee, IBaseEmployee, IManageEmployee, ManageEmployee } from "../task_1";
+import { BaseEmployee, IManageEmployee, ManageEmployee } from "../task_1";
 import { ITEmployee } from "../task_2";
 import { EmployeeFabric, IEmployeeFabric } from "../task_3";
 
 class Company {
-    public employeesRepository: Array<IBaseEmployee> = [];
+    public employeesRepository: Array<BaseEmployee> = [];
     public employeeFabric: IEmployeeFabric;
     public genDirector: IManageEmployee;
 
@@ -25,7 +25,7 @@ class Company {
         );
     }
 
-    public dismissEmployee(person: IBaseEmployee):void {
+    public dismissEmployee(person: BaseEmployee):void {
         //Если есть подчиненные, то их нужно распределить
         if (person instanceof ManageEmployee && person.subordinates.size !== 0) {
             throw new Error ("distribute the subordinates before the dismissal of the manager") 
@@ -36,13 +36,13 @@ class Company {
         person.leader?.removeSubordinate(person);
         //Убираем работника из коллекции
         this.employeesRepository = this.employeesRepository.filter(
-            (item:IBaseEmployee) => item !== person
+            (item:BaseEmployee) => item !== person
         )
     }
 
     public addBaseEmployee(name:string, divicion:EmployeeDivision, 
-        toManage:IManageEmployee=this.genDirector): IBaseEmployee {
-        const newEmployee:IBaseEmployee = this.employeeFabric.createBaseInstance(divicion, name);
+        toManage:IManageEmployee=this.genDirector): BaseEmployee {
+        const newEmployee:BaseEmployee = this.employeeFabric.createBaseInstance(divicion, name);
         toManage.addSubordinate(newEmployee);
 
         return newEmployee;
@@ -62,7 +62,7 @@ class Company {
      * @param newDivicion 
      * @returns 
      */
-    public moveEmployee(person: IBaseEmployee, newDivicion:EmployeeDivision, 
+    public moveEmployee(person: BaseEmployee, newDivicion:EmployeeDivision, 
         isManage: boolean, toManage?: IManageEmployee): void {
         this.dismissEmployee(person);
         if (isManage) {

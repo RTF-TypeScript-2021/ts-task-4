@@ -26,12 +26,10 @@ import { EmployeeDivision } from "../empoyee-separate.enum";
  *
  */
 
-export abstract class BaseEmployee implements IBaseEmployee {
+export abstract class BaseEmployee {
     public leader: IManageEmployee = null;
     constructor(public name: string, public division: EmployeeDivision){}
-    public getAuthority(): string{
-        return "ждет своего часа";
-    }
+    public abstract getAuthority(): string;
 }
 
 export abstract class ManageEmployee extends BaseEmployee implements IManageEmployee {
@@ -53,7 +51,8 @@ export abstract class ManageEmployee extends BaseEmployee implements IManageEmpl
         }
     }
 
-    public getSubordinates(flatOutput?: boolean): Array<BaseEmployee> | Map<EmployeeDivision, Array<BaseEmployee>> {
+    public getSubordinates(flatOutput = false): Array<BaseEmployee> | Map<EmployeeDivision, Array<BaseEmployee>> {
+        console.log(flatOutput);
         if (flatOutput === false) {
             return this.subordinates;
         } else {
@@ -81,15 +80,13 @@ export abstract class ManageEmployee extends BaseEmployee implements IManageEmpl
     }
 }
 
-export interface IBaseEmployee {
-    name: string;
-    division: EmployeeDivision;
-    getAuthority():string;
-    leader: IManageEmployee;
-}
 
-export interface IManageEmployee extends IBaseEmployee{
+export interface IManageEmployee {
+    leader: IManageEmployee | null; 
+    name: string; 
+    division: EmployeeDivision; 
     subordinates: Map<EmployeeDivision, Array<BaseEmployee>>;
+    getAuthority: ()=>string;
     getSubordinates(flatOutput?:boolean): Array<BaseEmployee> | Map<EmployeeDivision, Array<BaseEmployee>>;
     addSubordinate(person: BaseEmployee): void;
     removeSubordinate(person: BaseEmployee): void;
