@@ -52,7 +52,6 @@ export abstract class ManageEmployee extends BaseEmployee implements IManageEmpl
     }
 
     public getSubordinates(flatOutput = false): Array<BaseEmployee> | Map<EmployeeDivision, Array<BaseEmployee>> {
-        console.log(flatOutput);
         if (flatOutput === false) {
             return this.subordinates;
         } else {
