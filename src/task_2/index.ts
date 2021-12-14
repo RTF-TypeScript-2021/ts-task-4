@@ -8,29 +8,29 @@ import {EmployeeDivision} from "../empoyee-separate.enum";
  */
 
 export class ITEmployee implements IBaseEmployee{
-    department: EmployeeDivision;
-    fullName: string;
+    public department: EmployeeDivision;
+    public fullName: string;
 
     constructor(name: string) {
         this.fullName = name;
         this.department = EmployeeDivision.IT;
     }
 
-    getAuthority(): void {
+    public getAuthority(): void {
         console.log("IT-department worker. Can coding")
     }
 }
 
 export class CalculusEmployee implements IBaseEmployee {
-    department: EmployeeDivision;
-    fullName: string;
+    public department: EmployeeDivision;
+    public fullName: string;
 
     constructor(name: string) {
         this.fullName = name;
         this.department = EmployeeDivision.calculus;
     }
 
-    getAuthority() {
+    public getAuthority() {
         console.log("Calculus-department worker. Can calculate finances");
     }
 }
@@ -44,7 +44,7 @@ export class ManagementEmployee extends ManageEmployee{
         this.subordinates = new Map();
     }
 
-    getAuthority() {
+    public getAuthority() {
         console.log("Management worker. Can manage groups of workers");
     }
 
@@ -59,7 +59,7 @@ export class AdministrationEmployee extends ManageEmployee{
         this.canSubordinate = true;
     }
 
-    getAuthority() {
+    public getAuthority() {
         console.log("Administration worker. Can control activity all of workers")
     }
 

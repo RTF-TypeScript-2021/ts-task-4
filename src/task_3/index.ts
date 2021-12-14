@@ -13,7 +13,7 @@ import {EmployeeDivision} from "../empoyee-separate.enum";
 
 export class EmployeeFabric {
 
-    static createEmployee(dep: EmployeeDivision, name: string) {
+    public static createEmployee(dep: EmployeeDivision, name: string) {
         switch (dep) {
             case EmployeeDivision.IT:
                 return new ITEmployee(name);
@@ -25,7 +25,7 @@ export class EmployeeFabric {
         throw new Error("Incorrect department for employee");
     }
 
-    static createManageEmployee(dep: EmployeeDivision, name:string) {
+    public static createManageEmployee(dep: EmployeeDivision, name:string) {
         switch(dep) {
             case EmployeeDivision.management:
                 return new ManagementEmployee(name);

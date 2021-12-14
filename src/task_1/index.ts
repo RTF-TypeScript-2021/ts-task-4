@@ -35,18 +35,18 @@ export interface IBaseEmployee {
 
 
 export abstract class ManageEmployee implements IBaseEmployee{
-    subordinates: Map<EmployeeDivision, Set<IBaseEmployee>>;
+    protected subordinates: Map<EmployeeDivision, Set<IBaseEmployee>>;
 
-    fullName: string;
-    department: EmployeeDivision;
-    canSubordinate: boolean;
+    public fullName: string;
+    public department: EmployeeDivision;
+    public canSubordinate: boolean;
 
-    getAuthority() {
+    public getAuthority() {
         console.log("ManageEmployee authorities");
     }
 
 
-    addSubordinate(person: IBaseEmployee): void {
+    public addSubordinate(person: IBaseEmployee): void {
         if (this.subordinates.has(person.department)) {
             const departmentSubordinates = this.subordinates.get(person.department);
             if (departmentSubordinates.has(person)) {
@@ -59,7 +59,7 @@ export abstract class ManageEmployee implements IBaseEmployee{
         }
     }
 
-    getSubordinates(flatOutput?: boolean): void {
+    public getSubordinates(flatOutput?: boolean): void {
         if (flatOutput) {
             this.subordinates.forEach( subs => {
                 console.log(Array.from(subs).toString());
@@ -71,7 +71,7 @@ export abstract class ManageEmployee implements IBaseEmployee{
         }
     }
 
-    removeSubordinate(person: IBaseEmployee): void {
+    public removeSubordinate(person: IBaseEmployee): void {
         if (this.subordinates.has(person.department)) {
             const departmentSubordinates = this.subordinates.get(person.department);
             if (departmentSubordinates.has(person)) {
